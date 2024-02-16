@@ -1,5 +1,6 @@
 package it.epicode.GestioneDispositivi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +16,9 @@ public class Dipendente {
     private String username;
     private String nome;
     private String cognome;
+    @Column(unique = true)
     private  String email;
+    @JsonIgnore
     @OneToMany(mappedBy = "dipendente")
     private List<Dispositivo> dispositivos;
     private String avatar;

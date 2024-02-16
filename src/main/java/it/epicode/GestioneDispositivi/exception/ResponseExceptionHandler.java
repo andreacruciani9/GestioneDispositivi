@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 @RestControllerAdvice
 public class ResponseExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
@@ -13,9 +15,9 @@ public class ResponseExceptionHandler {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(IOException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse ExceptionHandler(Exception e){
+    public ErrorResponse ExceptionHandler(IOException e){
         return new ErrorResponse(e.getMessage());
     }
 

@@ -7,13 +7,16 @@ import it.epicode.GestioneDispositivi.repository.DipendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DipendenteService {
     @Autowired
     private DipendenteRepository dipendenteRepository;
-
+    @Autowired
+    private JavaMailSenderImpl javaMailSender;
     public Page<Dipendente> getAllDipend(Pageable pageble) {
         return dipendenteRepository.findAll(pageble);
     }
@@ -24,7 +27,16 @@ public class DipendenteService {
 
     public Dipendente saveDipend(DipendenteRequest dipendenteRequest) throws NotFoundException {
         Dipendente dipendente = new Dipendente(dipendenteRequest.getNome(), dipendenteRequest.getCognome(), dipendenteRequest.getUsername(), dipendenteRequest.getEmail());
+      sendMail(dipendente.getEmail());
         return dipendenteRepository.save(dipendente);
+    }
+    public void sendMail(String email){
+        SimpleMailMessage message=new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("registrazione Servizio ");
+        message.setText("Registrazione avvenuta con successo");
+
+        javaMailSender.send(message);
     }
 
     public Dipendente refreshDipendente(int id, DipendenteRequest dipendenteRequest) throws NotFoundException {

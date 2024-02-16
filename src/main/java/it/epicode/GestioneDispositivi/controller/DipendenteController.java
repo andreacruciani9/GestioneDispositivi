@@ -8,6 +8,7 @@ import it.epicode.GestioneDispositivi.service.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
-
+@RestController
 public class DipendenteController {
     @Autowired
     private DipendenteService dipendenteService;
     @Autowired
     private Cloudinary cloudinary;
+
 
 @GetMapping("/dipendenti")
 public Page<Dipendente> getAll(Pageable pageable){
